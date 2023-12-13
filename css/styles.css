@@ -1,0 +1,64 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+h1 {
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+    color: #0066cc;
+    margin-right: 15px;
+}
+header {
+    padding-bottom: 30px;
+}
+
+.topnav{
+    background-color: teal;
+    overflow: hidden;
+    position: fixed;
+    width: 100vw;
+    top: 0;
+    left: 0;
+}
+
+.topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.topnav a:hover {
+    background-color: cadetblue;
+    color: black;
+}
+
+.topnav a.active {
+    background-color: cornflowerblue;
+    color: white;
+}
+
+.topnav-right {
+    float: right;
+}
+
+
+footer {
+    background-color: teal;
+    overflow: hidden;
+    position: fixed;
+    width: 100vw;
+    bottom: 0;
+    left: 0;
+}
+
+footer p {
+    color: #f2f2f2;
+    text-align: center;
+}
