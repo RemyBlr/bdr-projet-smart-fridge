@@ -10,7 +10,7 @@ BEGIN
     UPDATE Stock
     SET nombrestock = stock.nombrestock - (SELECT nombrestock
                                            FROM Utilise_ingredient
-                                           WHERE utiliseRecette = NEW.utiliseRecette
+                                           WHERE utilise_recette = NEW.utilise_recette
                                              AND ingredient = NEW.ingredient)
     WHERE ingredient = NEW.ingredient;
 

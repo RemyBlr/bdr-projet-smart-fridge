@@ -4,15 +4,15 @@ CREATE OR REPLACE VIEW vue_ingredient_substitue AS
 SELECT
     IP.ingredientPrincipal,
     IP.recette AS recette_id,
-    IP.nombre,
-    ISU.ingredient AS substitut_id,
+    IP.nombreIngredient,
+    ISU.ingredient_substitue AS substitut_id,
     I.nom AS ingredient_nom,
     I.description
 FROM Ingredient_principal AS IP
-INNER JOIN Ingredient_substitue  AS ISU
-    ON IP.ingredientPrincipal = ISU.ingredientPrincipal
+INNER JOIN Ingredient_substitue AS ISU
+    ON IP.ingredientPrincipal = ISU.ingredient_principal
 INNER JOIN Ingredient AS I 
-    ON ISU.ingredient = I.id;
+    ON ISU.ingredient_substitue = I.id;
 
 
 CREATE OR REPLACE VIEW vue_ingredient_aime_par_utilisateur AS
@@ -67,9 +67,9 @@ CREATE OR REPLACE VIEW vue_menage AS
 SELECT
     UM.utilisateur AS user_email,
     M.id AS household_id,
-    M.adrRue,
-    M.adrNum,
-    M.adrNPA,
-    M.adrVille
+    M.adr_rue,
+    M.adr_num,
+    M.adr_npa,
+    M.adr_ville
 FROM Utilisateur_menage AS UM
 INNER JOIN Menage AS M ON UM.menage = M.id;

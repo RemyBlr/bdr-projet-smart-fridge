@@ -5,10 +5,10 @@ SET search_path TO Planificateur_repas;
 -- Menage
 CREATE TABLE IF NOT EXISTS Menage (
     id          INT             PRIMARY KEY,
-    adrRue      VARCHAR(100),
-    adrNum      VARCHAR(20),
-    adrNPA      VARCHAR(20),
-    adrVille    VARCHAR(100)
+    adr_rue     VARCHAR(100),
+    adr_num     VARCHAR(20),
+    adr_npa     VARCHAR(20),
+    adr_ville   VARCHAR(100)
 );
 
 -- Utilisateur
@@ -27,14 +27,24 @@ CREATE TABLE IF NOT EXISTS Utilisateur (
 CREATE TABLE IF NOT EXISTS Recette (
     id          INT             PRIMARY KEY,
     nom         VARCHAR(100),
-    operations  VARCHAR(500),
-    difficulte  INT,
+    operations  VARCHAR(2000),
+    difficulte  INT,  -- sur une échelle de 1 à 10 (le plus difficile)
     temps       TIME,
-    calories    FLOAT,
-    score       CHAR(1),
+    calories    FLOAT, -- pour 1 adulte
+    score       CHAR(1), -- sur une échelle de A (le plus sain) à E
     visibilite  VARCHAR(20), -- public, privé
     utilisateur VARCHAR(100)    NOT NULL,
     FOREIGN KEY (utilisateur)   REFERENCES Utilisateur(email)
+);
+
+-- Recette_liee
+CREATE TABLE IF NOT EXISTS Recette_liee (
+    recette         INT,
+    recette_liee    INT,
+    PRIMARY KEY (recette, recette_liee),
+    FOREIGN KEY (recette)       REFERENCES Recette(id),
+    FOREIGN KEY (recette_liee)  REFERENCES Recette(id),
+    CHECK (recette <> recette_liee)
 );
 
 -- Permission
@@ -87,11 +97,7 @@ CREATE TABLE IF NOT EXISTS Stock (
 
 -- Commande
 CREATE TABLE IF NOT EXISTS Commande (
-<<<<<<< HEAD
-    nombreCommande  INT,
-=======
-    nombre          FLOAT,
->>>>>>> a4c22992e66ff0d9d53d1d1fbdc375152a644f06
+    nombreCommande  FLOAT,
     etat            VARCHAR(20),
     planificateur   INT,
     ingredient      INT,
@@ -118,11 +124,7 @@ CREATE TABLE IF NOT EXISTS Aime_ingredient (
     FOREIGN KEY (ingredient)    REFERENCES Ingredient(id)
 );
 
-<<<<<<< HEAD
--- AimeRecette
-=======
 -- Aime_recette
->>>>>>> a4c22992e66ff0d9d53d1d1fbdc375152a644f06
 CREATE TABLE IF NOT EXISTS Aime_recette (
     utilisateur VARCHAR(100),
     recette     INT,
@@ -154,6 +156,7 @@ CREATE TABLE IF NOT EXISTS Utilise_recette (
 CREATE TABLE IF NOT EXISTS Utilise_ingredient (
     utilise_recette INT,
     ingredient      INT,
+    nombe           FLOAT,
     PRIMARY KEY (Utilise_recette, ingredient),
     FOREIGN KEY (utilise_recette)   REFERENCES Utilise_recette(id),
     FOREIGN KEY (ingredient)        REFERENCES Ingredient(id)
@@ -161,26 +164,29 @@ CREATE TABLE IF NOT EXISTS Utilise_ingredient (
 
 -- Ingredient_principal
 CREATE TABLE IF NOT EXISTS Ingredient_principal (
-<<<<<<< HEAD
-    ingredientPrincipal INT     PRIMARY KEY,
-    recette             INT,
-    ingredient          INT,
-    nombreIngredient    FLOAT,
-=======
-    id                          INT        PRIMARY KEY,
+    ingredientPrincipal         INT        PRIMARY KEY,
     recette                     INT,
     ingredient                  INT,
-    nombre                      FLOAT,
->>>>>>> a4c22992e66ff0d9d53d1d1fbdc375152a644f06
+    nombreIngredient            FLOAT,
     FOREIGN KEY (recette)       REFERENCES Recette(id),
     FOREIGN KEY (ingredient)    REFERENCES Ingredient(id)
 );
 
 -- Ingredient_substitue
 CREATE TABLE IF NOT EXISTS Ingredient_substitue (
+    recette                 INT,
     ingredient_principal    INT,
-    ingredient              INT,
-    PRIMARY KEY (ingredient_principal, ingredient),
-    FOREIGN KEY (ingredient_principal)  REFERENCES Ingredient_principal(id),
-    FOREIGN KEY (ingredient)            REFERENCES Ingredient(id)
+    ingredient_substitue    INT,
+    nombre                  FLOAT,
+    PRIMARY KEY (recette, ingredient_principal, ingredient_substitue),
+    FOREIGN KEY (recette)               REFERENCES Recette(id),
+    FOREIGN KEY (ingredient_principal)  REFERENCES Ingredient_principal(ingredientPrincipal),
+    FOREIGN KEY (ingredient_substitue)  REFERENCES Ingredient(id)
 );
+
+insert into recette values (1, 'pâtes', '1. aaaa 2. sss', 3, '11:00:00', 200, 10, 0, 'remy2@hotmail.com');
+insert into recette values (2, 'pâtes carbo', '1. aaaa 2. sss', 3, '11:00:00', 200, 10, 0, 'remy2@hotmail.com');
+select * from recette;
+select * from utilisateur;
+insert into aime_recette values ('remy2@hotmail.com',1);
+insert into aime_recette values ('remy2@hotmail.com',2);
