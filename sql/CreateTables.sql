@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS Planificateur (
 
 -- Stock
 CREATE TABLE IF NOT EXISTS Stock (
-    nombre          FLOAT,
+    nombreStock     FLOAT,
     expiration      DATE,
     etat            VARCHAR(20),
     planificateur   INT,
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS Stock (
 
 -- Commande
 CREATE TABLE IF NOT EXISTS Commande (
-    nombre          INT,
+    nombreCommande  INT,
     etat            VARCHAR(20),
     planificateur   INT,
     ingredient      INT,
@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS Aime_ingredient (
 );
 
 -- AimeRecette
-CREATE TABLE IF NOT EXISTS Aime_ingredient (
+CREATE TABLE IF NOT EXISTS Aime_recette (
     utilisateur VARCHAR(100),
     recette     INT,
     PRIMARY KEY (utilisateur, recette),
@@ -154,7 +154,7 @@ CREATE TABLE IF NOT EXISTS Ingredient_principal (
     ingredientPrincipal INT     PRIMARY KEY,
     recette             INT,
     ingredient          INT,
-    nombre              FLOAT,
+    nombreIngredient    FLOAT,
     FOREIGN KEY (recette)       REFERENCES Recette(id),
     FOREIGN KEY (ingredient)    REFERENCES Ingredient(id)
 );

@@ -1,3 +1,5 @@
+SET search_path TO Planificateur_repas;
+
 -- lors de l'utilisation d'ingrédients
 CREATE OR REPLACE FUNCTION maj_quantite_stock()
     RETURNS TRIGGER 
@@ -6,7 +8,10 @@ AS
 $$
 BEGIN
     UPDATE Stock
-    SET nombre = nombre - NEW.quantite
+    SET nombrestock = stock.nombrestock - (SELECT nombrestock
+                                           FROM Utilise_ingredient
+                                           WHERE utiliseRecette = NEW.utiliseRecette
+                                             AND ingredient = NEW.ingredient)
     WHERE ingredient = NEW.ingredient;
 
     RETURN NEW;
@@ -14,7 +19,8 @@ END;
 $$;
 
 CREATE TRIGGER trigger_maj_quantite_stock
-AFTER INSERT ON Utilise_ingredient
+AFTER INSERT
+ON Utilise_ingredient
 FOR EACH ROW
 EXECUTE FUNCTION maj_quantite_stock();
 
@@ -36,7 +42,7 @@ $$;
 CREATE TRIGGER trigger_maj_allergies_utilisateur
 AFTER INSERT ON Ingredient
 FOR EACH ROW
-WHEN NEW.utilisateur IS NOT NULL
+WHEN (NEW.utilisateur IS NOT NULL)
 EXECUTE FUNCTION maj_allergies_utilisateur();
 
 -- lors d'un ajout de recette à la DB

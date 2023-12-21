@@ -1,11 +1,13 @@
+SET search_path TO Planificateur_repas;
+
 CREATE OR REPLACE VIEW vue_ingredient_substitue AS
 SELECT
     IP.ingredientPrincipal,
     IP.recette AS recette_id,
-    IP.nombre AS quantite,
+    IP.nombre,
     ISU.ingredient AS substitut_id,
     I.nom AS ingredient_nom,
-    I.description AS ingredient_description
+    I.description
 FROM Ingredient_principal AS IP
 INNER JOIN Ingredient_substitue  AS ISU
     ON IP.ingredientPrincipal = ISU.ingredientPrincipal
@@ -47,3 +49,27 @@ SELECT
 FROM Aime_recette AS AR
 INNER JOIN Recette AS R
     ON AR.recette = R.id;
+
+CREATE OR REPLACE VIEW vue_profile_utilisateur AS
+SELECT
+    U.email AS user_email,
+    U.prenom,
+    U.nom,
+    U.genre,
+    U.dob,
+    U.poids,
+    U.taille,
+    P.admin
+FROM Utilisateur AS U
+LEFT JOIN Permission AS P ON U.email = P.email;
+
+CREATE OR REPLACE VIEW vue_menage AS
+SELECT
+    UM.utilisateur AS user_email,
+    M.id AS household_id,
+    M.adrRue,
+    M.adrNum,
+    M.adrNPA,
+    M.adrVille
+FROM Utilisateur_menage AS UM
+INNER JOIN Menage AS M ON UM.menage = M.id;
