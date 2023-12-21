@@ -14,6 +14,7 @@ function authenticateUser($email, $password, $pdo) {
   if ($user && password_verify($password, $user['mot_de_passe'])) {
     $_SESSION['username'] = $user['prenom'];
     $_SESSION['authenticated'] = true;
+    $_SESSION['s_email'] = $user['email'];
     return $user;
   } else {
     return false;

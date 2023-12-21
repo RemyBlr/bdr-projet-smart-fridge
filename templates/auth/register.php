@@ -40,7 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute();
 
     $_SESSION['authenticated'] = true;
-    $_SESSION['username'] = $_POST['prenom'];
+    $_SESSION['username'] = $prenom;
+    $_SESSION['s_email'] = $email;
 
     header("Location: ../homepage.php");
     exit();
