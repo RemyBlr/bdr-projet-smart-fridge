@@ -31,8 +31,8 @@ CREATE TABLE IF NOT EXISTS Recette (
     difficulte  INT,
     temps       TIME,
     calories    FLOAT,
-    score       INT,
-    visibilite  INT,
+    score       CHAR(1),
+    visibilite  VARCHAR(20), -- public, privé
     utilisateur VARCHAR(100)    NOT NULL,
     FOREIGN KEY (utilisateur)   REFERENCES Utilisateur(email)
 );
@@ -57,7 +57,9 @@ CREATE TABLE IF NOT EXISTS Categorie (
 CREATE TABLE IF NOT EXISTS Ingredient (
     id          INT             PRIMARY KEY,
     nom         VARCHAR(100),
+    type        VARCHAR(100),
     description VARCHAR(100),
+    unite       VARCHAR(20),
     categorie   VARCHAR(100)    NOT NULL,
     utilisateur VARCHAR(100)    NOT NULL,
     FOREIGN KEY (categorie)     REFERENCES Categorie(nom),
@@ -85,7 +87,11 @@ CREATE TABLE IF NOT EXISTS Stock (
 
 -- Commande
 CREATE TABLE IF NOT EXISTS Commande (
+<<<<<<< HEAD
     nombreCommande  INT,
+=======
+    nombre          FLOAT,
+>>>>>>> a4c22992e66ff0d9d53d1d1fbdc375152a644f06
     etat            VARCHAR(20),
     planificateur   INT,
     ingredient      INT,
@@ -103,7 +109,7 @@ CREATE TABLE IF NOT EXISTS Allergie (
     FOREIGN KEY (ingredient)    REFERENCES Ingredient(id)
 );
 
--- AimeIngredient
+-- Aime_ingredient
 CREATE TABLE IF NOT EXISTS Aime_ingredient (
     utilisateur VARCHAR(100),
     ingredient  INT,
@@ -112,7 +118,11 @@ CREATE TABLE IF NOT EXISTS Aime_ingredient (
     FOREIGN KEY (ingredient)    REFERENCES Ingredient(id)
 );
 
+<<<<<<< HEAD
 -- AimeRecette
+=======
+-- Aime_recette
+>>>>>>> a4c22992e66ff0d9d53d1d1fbdc375152a644f06
 CREATE TABLE IF NOT EXISTS Aime_recette (
     utilisateur VARCHAR(100),
     recette     INT,
@@ -121,7 +131,7 @@ CREATE TABLE IF NOT EXISTS Aime_recette (
     FOREIGN KEY (recette)       REFERENCES Recette(id)
 );
 
--- UtilisateurMenage
+-- Utilisateur_menage
 CREATE TABLE IF NOT EXISTS Utilisateur_menage (
     menage      INT,
     utilisateur VARCHAR(100),
@@ -130,9 +140,9 @@ CREATE TABLE IF NOT EXISTS Utilisateur_menage (
     FOREIGN KEY (utilisateur)   REFERENCES Utilisateur(email)
 );
 
--- UtiliseRecette
+-- Utilise_recette
 CREATE TABLE IF NOT EXISTS Utilise_recette (
-    id      INT            PRIMARY KEY,
+    id      INT             PRIMARY KEY,
     date    DATE,
     menage  INT NOT NULL,
     recette INT NOT NULL,
@@ -140,30 +150,37 @@ CREATE TABLE IF NOT EXISTS Utilise_recette (
     FOREIGN KEY (recette)   REFERENCES Recette(id)
 );
 
--- UtiliseIngredient
+-- Utilise_ingredient
 CREATE TABLE IF NOT EXISTS Utilise_ingredient (
-    utiliseRecette  INT,
+    utilise_recette INT,
     ingredient      INT,
-    PRIMARY KEY (UtiliseRecette, ingredient),
-    FOREIGN KEY (utiliseRecette)    REFERENCES Utilise_recette(id),
+    PRIMARY KEY (Utilise_recette, ingredient),
+    FOREIGN KEY (utilise_recette)   REFERENCES Utilise_recette(id),
     FOREIGN KEY (ingredient)        REFERENCES Ingredient(id)
 );
 
--- IngredientPrincipal
+-- Ingredient_principal
 CREATE TABLE IF NOT EXISTS Ingredient_principal (
+<<<<<<< HEAD
     ingredientPrincipal INT     PRIMARY KEY,
     recette             INT,
     ingredient          INT,
     nombreIngredient    FLOAT,
+=======
+    id                          INT        PRIMARY KEY,
+    recette                     INT,
+    ingredient                  INT,
+    nombre                      FLOAT,
+>>>>>>> a4c22992e66ff0d9d53d1d1fbdc375152a644f06
     FOREIGN KEY (recette)       REFERENCES Recette(id),
     FOREIGN KEY (ingredient)    REFERENCES Ingredient(id)
 );
 
--- IngredientSubstitue
+-- Ingredient_substitue
 CREATE TABLE IF NOT EXISTS Ingredient_substitue (
-    ingredientPrincipal INT,
-    ingredient          INT,
-    PRIMARY KEY (ingredientPrincipal, ingredient),
-    FOREIGN KEY (ingredientPrincipal)   REFERENCES Ingredient_principal(ingredientPrincipal),
+    ingredient_principal    INT,
+    ingredient              INT,
+    PRIMARY KEY (ingredient_principal, ingredient),
+    FOREIGN KEY (ingredient_principal)  REFERENCES Ingredient_principal(id),
     FOREIGN KEY (ingredient)            REFERENCES Ingredient(id)
 );
