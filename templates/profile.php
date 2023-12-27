@@ -69,7 +69,7 @@ $menage = $stmt_menage->fetchAll(PDO::FETCH_ASSOC);
 <ul class="liked-ingredient">
     Ingrédients aimés:
     <?php foreach ($ingredient as $ing) {?>
-        <li><?php echo $ing['ingredient_nom']; ?></li>
+        <li><?php echo $ing['ingredient_nom'];?> <?php  echo $ing['type']; ?></li>
     <?php } ?>
 </ul>
 <button type="button">Modifier mes ingrédients aimés</button>

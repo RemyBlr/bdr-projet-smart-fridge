@@ -19,6 +19,7 @@ CREATE OR REPLACE VIEW vue_ingredient_aime_par_utilisateur AS
 SELECT
     AI.utilisateur AS user_email,
     I.nom AS ingredient_nom,
+    I.type,
     I.description AS ingredient_description
 FROM Aime_ingredient AS AI
 INNER JOIN Ingredient AS I
