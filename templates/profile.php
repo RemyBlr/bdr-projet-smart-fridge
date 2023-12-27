@@ -72,7 +72,7 @@ $menage = $stmt_menage->fetchAll(PDO::FETCH_ASSOC);
         <li><?php echo $ing['ingredient_nom'];?> <?php  echo $ing['type']; ?></li>
     <?php } ?>
 </ul>
-<button type="button">Modifier mes ingrédients aimés</button>
+<button type="button" onclick="window.location.href='./ingredients.php'">Modifier mes ingrédients aimés</button>
 <?php include("./includes/footer.php"); ?>
 </body>
 </html>
