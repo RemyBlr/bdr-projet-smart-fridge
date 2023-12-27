@@ -32,7 +32,7 @@ $queryMenage = "SELECT * FROM vue_menage WHERE user_email = :email";
 $stmt_menage = $pdo->prepare($queryMenage);
 $stmt_menage->bindParam(':email', $_SESSION['s_email']);
 $stmt_menage->execute();
-$menage = $stmt_menage->fetch(PDO::FETCH_ASSOC);
+$menage = $stmt_menage->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
