@@ -64,7 +64,7 @@ $menage = $stmt_menage->fetchAll(PDO::FETCH_ASSOC);
   <li><?php echo $rec['recipe_nom']; ?></li>
   <?php } ?>
 </ul>
-<button type="button">Modifier mes recettes aimées</button>
+<button type="button" onclick="window.location.href='./recipe.php'">Modifier mes recettes aimées</button>
 <br>
 <ul class="liked-ingredient">
     Ingrédients aimés:

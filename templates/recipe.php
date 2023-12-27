@@ -1,11 +1,28 @@
 <?php
 session_start();
+include_once('./auth/db_connection.php');
+global $pdo;
 
 // Check if the user is not authenticated
 if (!isset($_SESSION['authenticated']) || !$_SESSION['authenticated']) {
   header('Location: login.php');
   exit();
 }
+
+// Query to get all recipes
+$query = "SELECT * FROM Recette";
+$stmt = $pdo->query($query);
+$recipes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Query to get liked recipes by the current user
+$queryLikedRecipes = "SELECT recette FROM Aime_recette WHERE utilisateur = :userEmail";
+$stmtLikedRecipes = $pdo->prepare($queryLikedRecipes);
+$stmtLikedRecipes->bindParam(':userEmail', $_SESSION['s_email']);
+$stmtLikedRecipes->execute();
+$likedRecipes = $stmtLikedRecipes->fetchAll(PDO::FETCH_COLUMN);
+
+// Close the database connection
+$db = null;
 ?>
 
 <!DOCTYPE html>
@@ -13,12 +30,47 @@ if (!isset($_SESSION['authenticated']) || !$_SESSION['authenticated']) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
+    <title>Recipes</title>
     <link rel="stylesheet" type="text/css" href="../css/styles.css">
+    <style>
+        .liked {
+            color: green;
+        }
+    </style>
 </head>
 <body>
 <?php include("./includes/header.php"); ?>
-<h1>Welcome to My recipe!</h1>
+
+<h1>Recipes</h1>
+
+<ul id="recipeList">
+  <?php foreach ($recipes as $recipe) : ?>
+    <?php
+    $likedClass = in_array($recipe['id'], $likedRecipes) ? 'liked' : '';
+    ?>
+      <li class="<?php echo $likedClass; ?>" data-recipe-id="<?php echo $recipe['id']; ?>">
+        <?php echo $recipe['nom']; ?>
+      </li>
+  <?php endforeach; ?>
+</ul>
+
+<script>
+    // Add click event listener to each recipe item
+    document.querySelectorAll('#recipeList li').forEach(item => {
+        item.addEventListener('click', function () {
+            const recipeId = this.getAttribute('data-recipe-id');
+            // Toggle liked status (add or remove liked class)
+            this.classList.toggle('liked');
+
+            // Send the recipe ID to the server using AJAX (you can use fetch or another method)
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', './crud/toggle_like_recipe.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(`recipeId=${recipeId}`);
+        });
+    });
+</script>
+
 <?php include("./includes/footer.php"); ?>
 </body>
 </html>

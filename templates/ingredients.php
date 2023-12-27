@@ -3,7 +3,6 @@ session_start();
 include_once('./auth/db_connection.php');
 global $pdo;
 
-// Check if the user is not authenticated
 if (!isset($_SESSION['authenticated']) || !$_SESSION['authenticated']) {
   header('Location: login.php');
   exit();
@@ -64,7 +63,7 @@ $db = null;
 
             // Send the ingredient ID to the server using AJAX (you can use fetch or another method)
             const xhr = new XMLHttpRequest();
-            xhr.open('POST', './crud/toggle_like.php', true);
+            xhr.open('POST', './crud/toggle_like_ingredient.php', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.send(`ingredientId=${ingredientId}`);
         });
