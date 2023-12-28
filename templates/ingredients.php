@@ -20,8 +20,6 @@ $stmtLikedIngredients->bindParam(':userEmail', $_SESSION['s_email']);
 $stmtLikedIngredients->execute();
 $likedIngredients = $stmtLikedIngredients->fetchAll(PDO::FETCH_COLUMN);
 
-// Close the database connection
-$db = null;
 ?>
 
 <!DOCTYPE html>
@@ -42,6 +40,7 @@ $db = null;
 <?php include("./includes/header.php"); ?>
 
 <h1>Ingredients</h1>
+<a href="./crud/add_ingredient.php">Add Ingredient</a>
 
 <ul id="ingredientList">
   <?php foreach ($ingredients as $ingredient) : ?>
@@ -50,7 +49,7 @@ $db = null;
     ?>
       <li>
           <i class="heart fas fa-heart <?php echo $likedClass; ?>" data-ingredient-id="<?php echo $ingredient['id']; ?>"></i>
-          <a class="<?php echo $likedClass; ?>" href="ingredient_info.php?id=<?php echo $ingredient['id']; ?>"><?php echo $ingredient['nom']; ?>  <?php echo $ingredient['type']; ?></a>
+          <a class="<?php echo $likedClass; ?>" href="./crud/ingredient_info.php?id=<?php echo $ingredient['id']; ?>"><?php echo $ingredient['nom']; ?>  <?php echo $ingredient['type']; ?></a>
       </li>
   <?php endforeach; ?>
 </ul>

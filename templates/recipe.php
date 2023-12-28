@@ -43,6 +43,7 @@ $db = null;
 <?php include("./includes/header.php"); ?>
 
 <h1>Recipes</h1>
+<a href="./crud/add_recipe.php">Add Recipe</a>
 
 <ul id="recipeList">
   <?php foreach ($recipes as $recipe) : ?>
@@ -51,7 +52,7 @@ $db = null;
     ?>
       <li>
           <i class="heart fas fa-heart <?php echo $likedClass; ?>" data-recipe-id="<?php echo $recipe['id']; ?>"></i>
-          <a href="recipe_info.php?id=<?php echo $recipe['id']; ?>" class="<?php echo $likedClass; ?>"><?php echo $recipe['nom']; ?></a>
+          <a href="./crud/recipe_info.php?id=<?php echo $recipe['id']; ?>" class="<?php echo $likedClass; ?>"><?php echo $recipe['nom']; ?></a>
       </li>
   <?php endforeach; ?>
 </ul>
