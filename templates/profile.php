@@ -16,13 +16,13 @@ $stmt_select->bindParam(':email', $_SESSION['s_email']);
 $stmt_select->execute();
 $userProfile = $stmt_select->fetch(PDO::FETCH_ASSOC);
 
-$queryRccipe = "SELECT * FROM vue_recette_aimee_par_utilisateur WHERE user_email = :email";
+$queryRccipe = "SELECT * FROM vue_recette_aimee_par_utilisateur WHERE user_email = :email ORDER BY recipe_nom ASC";
 $stmt_recipe = $pdo->prepare($queryRccipe);
 $stmt_recipe->bindParam(':email', $_SESSION['s_email']);
 $stmt_recipe->execute();
 $recipe = $stmt_recipe->fetchAll(PDO::FETCH_ASSOC);
 
-$queryIngredient = "SELECT * FROM vue_ingredient_aime_par_utilisateur WHERE user_email = :email";
+$queryIngredient = "SELECT * FROM vue_ingredient_aime_par_utilisateur WHERE user_email = :email ORDER BY ingredient_nom ASC";
 $stmt_ingredient = $pdo->prepare($queryIngredient);
 $stmt_ingredient->bindParam(':email', $_SESSION['s_email']);
 $stmt_ingredient->execute();

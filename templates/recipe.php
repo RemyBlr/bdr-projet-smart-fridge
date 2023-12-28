@@ -32,6 +32,7 @@ $db = null;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipes</title>
     <link rel="stylesheet" type="text/css" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous" />
     <style>
         .liked {
             color: green;
@@ -48,25 +49,37 @@ $db = null;
     <?php
     $likedClass = in_array($recipe['id'], $likedRecipes) ? 'liked' : '';
     ?>
-      <li class="<?php echo $likedClass; ?>" data-recipe-id="<?php echo $recipe['id']; ?>">
-        <?php echo $recipe['nom']; ?>
+      <li>
+          <i class="heart fas fa-heart <?php echo $likedClass; ?>" data-recipe-id="<?php echo $recipe['id']; ?>"></i>
+          <a href="recipe_info.php?id=<?php echo $recipe['id']; ?>" class="<?php echo $likedClass; ?>"><?php echo $recipe['nom']; ?></a>
       </li>
   <?php endforeach; ?>
 </ul>
 
 <script>
-    // Add click event listener to each recipe item
-    document.querySelectorAll('#recipeList li').forEach(item => {
-        item.addEventListener('click', function () {
+    // Add click event listener to each heart icon
+    document.querySelectorAll('#recipeList .heart').forEach(heart => {
+        heart.addEventListener('click', function (event) {
+            event.stopPropagation(); // Prevent the click event on the li element
             const recipeId = this.getAttribute('data-recipe-id');
             // Toggle liked status (add or remove liked class)
+            const linkElement = this.nextElementSibling;
             this.classList.toggle('liked');
+            linkElement.classList.toggle('liked');
 
             // Send the recipe ID to the server using AJAX (you can use fetch or another method)
             const xhr = new XMLHttpRequest();
             xhr.open('POST', './crud/toggle_like_recipe.php', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.send(`recipeId=${recipeId}`);
+        });
+    });
+
+    // Add click event listener to each recipe item
+    document.querySelectorAll('#recipeList li').forEach(item => {
+        item.addEventListener('click', function () {
+            const recipeId = this.querySelector('.heart').getAttribute('data-recipe-id');
+            window.location.href = `recipe_info.php?id=${recipeId}`;
         });
     });
 </script>

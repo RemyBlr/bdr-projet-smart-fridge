@@ -31,6 +31,7 @@ $db = null;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ingredients</title>
     <link rel="stylesheet" type="text/css" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous" />
     <style>
         .liked {
             color: green;
@@ -47,25 +48,37 @@ $db = null;
     <?php
     $likedClass = in_array($ingredient['id'], $likedIngredients) ? 'liked' : '';
     ?>
-      <li class="<?php echo $likedClass; ?>" data-ingredient-id="<?php echo $ingredient['id']; ?>">
-        <?php echo $ingredient['nom']; ?> </php> <?php echo $ingredient['type']; ?>
+      <li>
+          <i class="heart fas fa-heart <?php echo $likedClass; ?>" data-ingredient-id="<?php echo $ingredient['id']; ?>"></i>
+          <a class="<?php echo $likedClass; ?>" href="ingredient_info.php?id=<?php echo $ingredient['id']; ?>"><?php echo $ingredient['nom']; ?>  <?php echo $ingredient['type']; ?></a>
       </li>
   <?php endforeach; ?>
 </ul>
 
 <script>
-    // Add click event listener to each ingredient item
-    document.querySelectorAll('#ingredientList li').forEach(item => {
-        item.addEventListener('click', function () {
+    // Add click event listener to each heart icon
+    document.querySelectorAll('#ingredientList .heart').forEach(heart => {
+        heart.addEventListener('click', function (event) {
+            event.stopPropagation(); // Prevent the click event on the li element
             const ingredientId = this.getAttribute('data-ingredient-id');
+            const linkElement = this.nextElementSibling;
             // Toggle liked status (add or remove liked class)
             this.classList.toggle('liked');
+            linkElement.classList.toggle('liked');
 
             // Send the ingredient ID to the server using AJAX (you can use fetch or another method)
             const xhr = new XMLHttpRequest();
             xhr.open('POST', './crud/toggle_like_ingredient.php', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.send(`ingredientId=${ingredientId}`);
+        });
+    });
+
+    // Add click event listener to each ingredient item
+    document.querySelectorAll('#ingredientList li').forEach(item => {
+        item.addEventListener('click', function () {
+            const ingredientId = this.querySelector('.heart').getAttribute('data-ingredient-id');
+            window.location.href = `ingredient_info.php?id=${ingredientId}`;
         });
     });
 </script>
