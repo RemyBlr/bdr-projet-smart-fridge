@@ -1,0 +1,29 @@
+version: '3.8'
+networks:
+  bdr-net:
+    driver: bridge
+
+services:
+  webserver:
+    image: bdr-php
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www/html
+    environment:
+      # For windows and mac
+      XDEBUG_CONFIG: remote_host=host.docker.internal
+      # For linux
+      #XDEBUG_CONFIG: remote_host=localhost
+  postgresql:
+    image: 'bitnami/postgresql:16'
+    environment:
+      - POSTGRESQL_USERNAME=bdr
+      - POSTGRESQL_PASSWORD=bdr
+      - POSTGRESQL_DATABASE=bdr
+      - POSTGRESQL_POSTGRES_PASSWORD=root
+    ports:
+      - 5432:5432
