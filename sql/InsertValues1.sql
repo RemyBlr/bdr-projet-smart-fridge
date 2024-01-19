@@ -10,15 +10,15 @@ INSERT INTO Menage VALUES (2, 'Evergreen Terrace', '740', '65619', 'Springfield,
 -- Utilisateur: email (VARCHAR(100), PK), prenom (VARCHAR(100)), nom (VARCHAR(100)), genre (CHAR(1): H, F),
 --              dob (DATE), poids (FLOAT), taille (FLOAT), mot_de_passe (VARCHAR(80))
 INSERT INTO Utilisateur VALUES ('admin@planificateur_repas.ch', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO Utilisateur VALUES ('homer@simpson.com', 'Homer', 'Simpson', 'H', '1965-05-12', 109, 175, 'homer');
-INSERT INTO Utilisateur VALUES ('marge@simpson.com', 'Marge', 'Simpson', 'F', '1968-03-19', 63, 175, 'marge');
-INSERT INTO Utilisateur VALUES ('bart@simpson.com', 'Bart', 'Simpson', 'H', '2009-04-01', 51, 163, 'bart');
-INSERT INTO Utilisateur VALUES ('lisa@simpson.com', 'Lisa', 'Simpson', 'F', '2011-05-09', 42, 152, 'lisa');
-INSERT INTO Utilisateur VALUES ('maggie@simpson.com', 'Maggie', 'Simpson', 'F', '2016-01-14', 22, 121, 'maggie');
-INSERT INTO Utilisateur VALUES ('ned@flanders.com', 'Ned', 'Flanders', 'H', '1965-10-12', 73, 175, 'ned');
-INSERT INTO Utilisateur VALUES ('maude@flanders.com', 'Maude', 'Flanders', 'F', '1968-12-16', 55, 165, 'maude');
-INSERT INTO Utilisateur VALUES ('rod@flanders.com', 'Rod', 'Flanders', 'H', '2013-01-01', 31, 138, 'rod');
-INSERT INTO Utilisateur VALUES ('todd@flanders.com', 'Todd', 'Flanders', 'H', '2014-04-07', 28, 133, 'todd');
+INSERT INTO Utilisateur VALUES ('homer@simpson.com', 'Homer', 'Simpson', 'H', '1965-05-12', 109, 175, '$2y$10$kwF7ZeawluQcvhM3N0PydeRFG.eLaK/C5yEaCuL3A9uzCgj1ORs2O');
+INSERT INTO Utilisateur VALUES ('marge@simpson.com', 'Marge', 'Simpson', 'F', '1968-03-19', 63, 175, '$2y$10$vld/U/3LFXhjhAfOJmwYbu7T2dBgcMVRNin0JDeFla.p9.ao8NWyq');
+INSERT INTO Utilisateur VALUES ('bart@simpson.com', 'Bart', 'Simpson', 'H', '2009-04-01', 51, 163, '$2y$10$9kflkK4ipooc.Cw223T5kOMq/raAAB8OvetN84fiX2IOdMkMIx4FS');
+INSERT INTO Utilisateur VALUES ('lisa@simpson.com', 'Lisa', 'Simpson', 'F', '2011-05-09', 42, 152, '$2y$10$L3v9B4jiVMf1tXTN7NirJeB8eh6irjm2jSQI.BW.a.SrZjeXKuQJO');
+INSERT INTO Utilisateur VALUES ('maggie@simpson.com', 'Maggie', 'Simpson', 'F', '2016-01-14', 22, 121, '$2y$10$HKxaqGXD34w3i0UZmnsKfuLLwlCqikh1YO8gBWVaci1SjPjd3xTrS');
+INSERT INTO Utilisateur VALUES ('ned@flanders.com', 'Ned', 'Flanders', 'H', '1965-10-12', 73, 175, '$2y$10$QYCJVagH3JWhQw4W5kid3eFKTYQD13KOwDi7Eq6sNrtXJwxopcEI6');
+INSERT INTO Utilisateur VALUES ('maude@flanders.com', 'Maude', 'Flanders', 'F', '1968-12-16', 55, 165, '$2y$10$sn2isvZgRMcG3hsjUs70lOcWW2SPcXZ0XGbutHaRxd18GZEN.SDRa');
+INSERT INTO Utilisateur VALUES ('rod@flanders.com', 'Rod', 'Flanders', 'H', '2013-01-01', 31, 138, '$2y$10$HLE3134pn93iWVDLrhV3R.3/N6OiGBytHHe3S5R6JVAqclqrdVxQK');
+INSERT INTO Utilisateur VALUES ('todd@flanders.com', 'Todd', 'Flanders', 'H', '2014-04-07', 28, 133, '$2y$10$rIISBA3Kfc1aGhZzOxWIP.uCSgx8yf03pM3a5SH5beB85TVD.LrJ2');
 
 -- Recette: id (INT, PK), nom (VARCHAR(100)), operations (VARCHAR(2000)), difficulte (INT), temps (TIME),
 --          calories (FLOAT), score (INT), visibilite (INT), utilisateur (VARCHAR(100), FK)
