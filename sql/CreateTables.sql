@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS Categorie (
 
 -- Ingredient
 CREATE TABLE IF NOT EXISTS Ingredient (
-    id          INT             PRIMARY KEY,
+    id          SERIAL             PRIMARY KEY,
     nom         VARCHAR(100),
     type        VARCHAR(100),
     description VARCHAR(100),
@@ -183,3 +183,48 @@ CREATE TABLE IF NOT EXISTS Ingredient_substitue (
     FOREIGN KEY (ingredient_principal)  REFERENCES Ingredient_principal(ingredientPrincipal),
     FOREIGN KEY (ingredient_substitue)  REFERENCES Ingredient(id)
 );
+
+ALTER TABLE stock
+DROP CONSTRAINT stock_ingredient_fkey;
+
+ALTER TABLE stock
+ADD CONSTRAINT stock_ingredient_fkey
+FOREIGN KEY (ingredient)
+REFERENCES ingredient(id)
+ON DELETE CASCADE;
+
+ALTER TABLE allergie
+DROP CONSTRAINT allergie_ingredient_fkey;
+
+ALTER TABLE allergie
+ADD CONSTRAINT allergie_ingredient_fkey
+FOREIGN KEY (ingredient)
+REFERENCES ingredient(id)
+ON DELETE CASCADE;
+
+ALTER TABLE ingredient_principal
+DROP CONSTRAINT ingredient_principal_ingredient_fkey;
+
+ALTER TABLE ingredient_principal
+ADD CONSTRAINT ingredient_principal_ingredient_fkey
+FOREIGN KEY (ingredient)
+REFERENCES ingredient(id)
+ON DELETE CASCADE;
+
+ALTER TABLE ingredient_substitue
+DROP CONSTRAINT ingredient_substitue_ingredient_principal_fkey;
+
+ALTER TABLE ingredient_substitue
+ADD CONSTRAINT ingredient_substitue_ingredient_principal_fkey
+FOREIGN KEY (ingredient_principal)
+REFERENCES ingredient(id)
+ON DELETE CASCADE;
+
+ALTER TABLE aime_ingredient
+DROP CONSTRAINT aime_ingredient_ingredient_fkey;
+
+ALTER TABLE aime_ingredient
+ADD CONSTRAINT aime_ingredient_ingredient_fkey
+FOREIGN KEY (ingredient)
+REFERENCES ingredient(id)
+ON DELETE CASCADE;

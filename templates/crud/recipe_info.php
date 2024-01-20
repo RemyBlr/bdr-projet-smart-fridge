@@ -61,6 +61,7 @@ $ingredients = $stmtIngredients->fetchAll(PDO::FETCH_ASSOC);
 
 <a href="../recipe.php">Retour</a>
 <a href="update_recipe.php?id=<?php echo $recipe['id']; ?>">Update Recipe</a>
+<a href="delete_recipe.php?id=<?php echo $recipe['id']; ?>">Delete Recipe</a>
 
 <?php include('../includes/footer.php'); ?>
 

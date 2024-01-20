@@ -42,6 +42,7 @@ $ingredient = $stmt->fetch(PDO::FETCH_ASSOC);
 
 <a href="../ingredients.php">Retour</a>
 <a href="./update_ingredient.php?id=<?php echo $ingredient['id']; ?>">Update Ingredient</a>
+<a href="./delete_ingredient.php?id=<?php echo $ingredient['id']; ?>">Delete Ingredient</a>
 
 <?php include('../includes/footer.php'); ?>
 
