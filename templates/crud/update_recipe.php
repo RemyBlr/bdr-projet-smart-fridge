@@ -11,6 +11,16 @@ $stmt->bindParam(':recipeId', $recipeId);
 $stmt->execute();
 $recipe = $stmt->fetch(PDO::FETCH_ASSOC);
 
+$queryIngredients = "SELECT IP.*, I.nom AS ingredient_nom, I.type, I.unite
+                     FROM Ingredient_principal AS IP
+                     INNER JOIN Ingredient AS I ON IP.ingredient = I.id
+                     WHERE IP.recette = :recipeId
+                     ORDER BY I.nom";
+$stmtIngredients = $pdo->prepare($queryIngredients);
+$stmtIngredients->bindParam(':recipeId', $recipeId);
+$stmtIngredients->execute();
+$currentIngredients = $stmtIngredients->fetchAll(PDO::FETCH_ASSOC);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $updatedRecipeName = $_POST['updated_recipe_name'];
   $updatedRecipeOperations = $_POST['updated_recipe_operations'];
@@ -18,7 +28,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $updatedRecipeTime = $_POST['updated_recipe_time'];
   $updatedRecipeCalories = $_POST['updated_recipe_calories'];
 
-  $updateQuery = "UPDATE Recette SET nom = :updatedRecipeName, operations = :updatedRecipeOperations, difficulte = :updatedRecipeDifficulty, temps = :updatedRecipeTime, calories = :updatedRecipeCalories WHERE id = :recipeId";
+  $updateQuery = "UPDATE Recette SET
+                          nom = :updatedRecipeName,
+                          operations = :updatedRecipeOperations,
+                          difficulte = :updatedRecipeDifficulty,
+                          temps = :updatedRecipeTime,
+                          calories = :updatedRecipeCalories
+                          WHERE id = :recipeId";
   $updateStmt = $pdo->prepare($updateQuery);
   $updateStmt->bindParam(':updatedRecipeName', $updatedRecipeName);
   $updateStmt->bindParam(':updatedRecipeOperations', $updatedRecipeOperations);
@@ -27,6 +43,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $updateStmt->bindParam(':updatedRecipeCalories', $updatedRecipeCalories);
   $updateStmt->bindParam(':recipeId', $recipeId);
   $updateStmt->execute();
+
+  foreach ($_POST['ingredient_principal'] as $index => $ingredientData) {
+    $updatedIngredientQuantity = $ingredientData['nombreingredient'];
+    $ingredientId = $currentIngredients[$index]['ingredient'];
+
+    $updateIngredientQuery = "UPDATE Ingredient_principal
+                              SET nombreIngredient = :updatedIngredientQuantity
+                              WHERE recette = :recipeId AND ingredient = :ingredientId";
+    $updateIngredientStmt = $pdo->prepare($updateIngredientQuery);
+    $updateIngredientStmt->bindParam(':updatedIngredientQuantity', $updatedIngredientQuantity);
+    $updateIngredientStmt->bindParam(':recipeId', $recipeId);
+    $updateIngredientStmt->bindParam(':ingredientId', $ingredientId);
+    $updateIngredientStmt->execute();
+  }
 
   header('Location: recipe_info.php?id=' . $recipeId);
   exit();
@@ -62,7 +92,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <label for="updated_recipe_calories">Calories:</label>
   <input type="number" id="updated_recipe_calories" name="updated_recipe_calories" value="<?php echo $recipe['calories']; ?>" required>
 
-  <button type="submit">Update Recipe</button>
+    <h2>Ingredients Principale</h2>
+  <?php foreach ($currentIngredients as $index => $ingredient) : ?>
+  <?php if ($ingredient['ingredient_nom'] != 0) : ?>
+      <label for="ingredient_principal[<?php echo $index; ?>][nombreingredient]">
+        <?php echo $ingredient['ingredient_nom']; ?> <?php echo $ingredient['type']; ?>
+      </label>
+      <input type="number" name="ingredient_principal[<?php echo $index; ?>][nombreingredient]" value="<?php echo $ingredient['nombreingredient']; ?>" required>
+      <?php echo $ingredient['unite']; ?>
+  <br>
+    <?php endif; ?>
+  <?php endforeach; ?>
+
+    <button type="submit">Update Recipe</button>
 </form>
 
 <?php include('../includes/footer.php'); ?>

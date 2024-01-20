@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS Utilisateur (
 
 -- Recette
 CREATE TABLE IF NOT EXISTS Recette (
-    id          INT             PRIMARY KEY,
+    id          SERIAL            PRIMARY KEY,
     nom         VARCHAR(100),
     operations  VARCHAR(2000),
     difficulte  INT,  -- sur une échelle de 1 à 10 (le plus difficile)
@@ -183,10 +183,3 @@ CREATE TABLE IF NOT EXISTS Ingredient_substitue (
     FOREIGN KEY (ingredient_principal)  REFERENCES Ingredient_principal(ingredientPrincipal),
     FOREIGN KEY (ingredient_substitue)  REFERENCES Ingredient(id)
 );
-
-insert into recette values (1, 'pâtes', '1. aaaa 2. sss', 3, '11:00:00', 200, 10, 0, 'remy2@hotmail.com');
-insert into recette values (2, 'pâtes carbo', '1. aaaa 2. sss', 3, '11:00:00', 200, 10, 0, 'remy2@hotmail.com');
-select * from recette;
-select * from utilisateur;
-insert into aime_recette values ('remy2@hotmail.com',1);
-insert into aime_recette values ('remy2@hotmail.com',2);
