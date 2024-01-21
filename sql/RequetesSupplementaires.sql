@@ -80,4 +80,7 @@ CREATE OR REPLACE VIEW Ingredients_allergie AS
         ON u.email = al.utilisateur;
 
 SELECT *
-FROM Ingredients_allergie;
+FROM Ingredients_allergie
+WHERE prenom = 'Homer';
+
+
