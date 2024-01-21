@@ -3,6 +3,10 @@ session_start();
 include_once('../auth/db_connection.php');
 global $pdo;
 
+$query = "SELECT id, nom, type FROM Ingredient ORDER BY nom";
+$stmt = $pdo->query($query);
+$ingredients = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $newRecipeName = $_POST['new_recipe_name'];
   $newRecipeOperations = $_POST['new_recipe_operations'];
@@ -19,6 +23,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $insertStmt->bindParam(':newRecipeCalories', $newRecipeCalories);
   $insertStmt->bindParam(':utilisateur', $_SESSION['s_email']); // Assuming you're storing user email in the session
   $insertStmt->execute();
+
+  $newRecipeId = $pdo->lastInsertId();
+
+  $selectedIngredients = $_POST['existing_ingredients'];
+  $ingredientQuantities = $_POST['ingredient_quantity'];
+
+  foreach ($selectedIngredients as $index => $ingredientId) {
+    $insertIngredientQuery = "INSERT INTO Ingredient_principal (recette, ingredient, nombreIngredient) VALUES (:newRecipeId, :ingredientId, :ingredientQuantity)";
+    $ingredientQuantity = $ingredientQuantities[$index];
+    $insertIngredientStmt = $pdo->prepare($insertIngredientQuery);
+    $insertIngredientStmt->bindParam(':newRecipeId', $newRecipeId);
+    $insertIngredientStmt->bindParam(':ingredientId', $ingredientId);
+    $insertIngredientStmt->bindParam(':ingredientQuantity', $ingredientQuantity);
+    $insertIngredientStmt->execute();
+  }
+  header('Location: ../recipe.php');
 }
 ?>
 
@@ -51,11 +71,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <label for="new_recipe_calories">Calories:</label>
   <input type="number" id="new_recipe_calories" name="new_recipe_calories" required>
+    <br>
+    <label for="existing_ingredients">Add Existing Ingredients</label>
+    <div id="existingIngredients">
+        <div class="ingredientEntry">
+            <select id="existing_ingredients" name="existing_ingredient[]">
+              <?php foreach ($ingredients as $ingredient) : ?>
+                  <option value="<?php echo $ingredient['id']; ?>"><?php echo $ingredient['nom']; ?> <?php echo $ingredient['type']; ?></option>
+              <?php endforeach; ?>
+            </select>
+            <label for="ingredient_quantity">Quantity:</label>
+            <input type="number" name="ingredient_quantity[]" required>
+        </div>
+    </div>
 
-  <button type="submit">Add Recipe</button>
+    <button type="button" onclick="addIngredientEntry()">Add Ingredient</button>
+    <br>
+    <button type="submit">Add Recipe</button>
+
 </form>
 
 <?php include('../includes/footer.php'); ?>
 
 </body>
 </html>
+
+<script>
+    // Function to add a new ingredient entry dynamically
+    function addIngredientEntry() {
+        const existingIngredients = document.getElementById('existingIngredients');
+        const newEntry = document.createElement('div');
+        newEntry.innerHTML = `
+      <div class="ingredientEntry">
+        <select id="existing_ingredients" name="existing_ingredient[]">
+          <?php foreach ($ingredients as $ingredient) : ?>
+        <option value="<?php echo $ingredient['id']; ?>"><?php echo $ingredient['nom']; ?> <?php echo $ingredient['type']; ?></option>
+          <?php endforeach; ?>
+        </select>
+        <label for="ingredient_quantity">Quantity:</label>
+        <input type="number" name="ingredient_quantity[]" required>
+      </div>
+    `;
+        existingIngredients.appendChild(newEntry);
+    }
+</script>

@@ -1,5 +1,5 @@
 <?php
-$host = 'postgresql'; // work with docker-compose otherwise 'localhost'
+$host = 'localhost'; // work with docker-compose otherwise 'localhost'
 $dbname = 'bdr';
 $user = 'bdr';
 $password = 'bdr';

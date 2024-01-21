@@ -10,7 +10,7 @@ if (!isset($_SESSION['authenticated']) || !$_SESSION['authenticated']) {
 }
 
 // Query to get all recipes
-$query = "SELECT * FROM Recette";
+$query = "SELECT * FROM Recette ORDER BY nom";
 $stmt = $pdo->query($query);
 $recipes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
