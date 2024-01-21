@@ -80,28 +80,27 @@ INSERT INTO ingredient_principal VALUES (24, 3, 25, 1);
 
 -- Ingredient_substitue: recette (INT, FK, PK), ingredient_principal (INT, FK, PK),
 --                       ingredient_substitue (INT, FK, PK), nombre (FLOAT, pour ingredient_substitue)
-INSERT INTO Ingredient_substitue VALUES (1, 3, 26, 100);
-INSERT INTO Ingredient_substitue VALUES (1, 3, 27, 100);
+INSERT INTO Ingredient_substitue VALUES (1, 5, 26, 100);
+INSERT INTO Ingredient_substitue VALUES (1, 5, 27, 100);
 
-INSERT INTO Ingredient_substitue VALUES (1, 1, 0, NULL);
+INSERT INTO Ingredient_substitue VALUES (1, 4, 0, NULL);
+INSERT INTO Ingredient_substitue VALUES (1, 3, 0, NULL);
+INSERT INTO Ingredient_substitue VALUES (1, 7, 0, NULL);
+INSERT INTO Ingredient_substitue VALUES (1, 9, 0, NULL);
+INSERT INTO Ingredient_substitue VALUES (1, 10, 0, NULL);
 INSERT INTO Ingredient_substitue VALUES (1, 11, 0, NULL);
-INSERT INTO Ingredient_substitue VALUES (1, 13, 0, NULL);
-INSERT INTO Ingredient_substitue VALUES (1, 15, 0, NULL);
-INSERT INTO Ingredient_substitue VALUES (1, 16, 0, NULL);
-INSERT INTO Ingredient_substitue VALUES (1, 17, 0, NULL);
-INSERT INTO Ingredient_substitue VALUES (1, 20, 0, NULL);
+INSERT INTO Ingredient_substitue VALUES (1, 14, 0, NULL);
 
-INSERT INTO Ingredient_substitue VALUES (2, 6, 28, 150);
-INSERT INTO Ingredient_substitue VALUES (2, 6, 29, 150);
-INSERT INTO Ingredient_substitue VALUES (2, 6, 30, 150);
+INSERT INTO Ingredient_substitue VALUES (2, 15, 28, 150);
+INSERT INTO Ingredient_substitue VALUES (2, 15, 29, 150);
+INSERT INTO Ingredient_substitue VALUES (2, 15, 30, 150);
 
-INSERT INTO Ingredient_substitue VALUES (3, 22, 23, 20);
+INSERT INTO Ingredient_substitue VALUES (3, 18, 23, 20);
 INSERT INTO Ingredient_substitue VALUES (3, 20, 31, 10);
 
-INSERT INTO Ingredient_substitue VALUES (3, 24, 0, NULL);
-INSERT INTO Ingredient_substitue VALUES (3, 20, 0, NULL);
 INSERT INTO Ingredient_substitue VALUES (3, 19, 0, NULL);
-INSERT INTO Ingredient_substitue VALUES (3, 11, 0, NULL);
+INSERT INTO Ingredient_substitue VALUES (3, 21, 0, NULL);
+INSERT INTO Ingredient_substitue VALUES (3, 22, 0, NULL);
 
 -- Recette_liee: recette (INT, FK, PK), recette_liee (INT, FK, PK)
 INSERT INTO Recette_liee VALUES (1, 2);
